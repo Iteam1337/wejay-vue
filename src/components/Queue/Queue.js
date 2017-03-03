@@ -7,7 +7,8 @@ export default {
   props: ['queue', 'history'],
   data() {
     return {
-      displayHistory: false
+      displayHistory: false,
+      user: JSON.parse(localStorage.user)
     }
   },
   components: {
@@ -34,6 +35,11 @@ export default {
     }
   },
   methods: {
+    removeSong: function (song) {
+      if (song.user.id === this.user.id) {
+        this.$socket.emit('removeSong', song)
+      }
+    },
     toggleHistory: function () {
       this.displayHistory = !this.displayHistory
     }

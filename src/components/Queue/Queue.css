@@ -1,3 +1,7 @@
+/*------------------------------------------------------------
+// Queue
+//
+//----------------------------------------------------------*/
 a {
   color: rgba(66, 185, 131, 0.8);
 }
@@ -53,9 +57,18 @@ ul {
   align-items: center;
   display: flex;
   padding: 10px;
+  transition: all 200ms ease-in-out;
 
   &:not(:last-child) {
     border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  &.userAdded {
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(36, 41, 46, 1);
+    }
   }
 }
 
@@ -80,4 +93,16 @@ ul {
   margin-top: 20px;
   padding: 20px;
   text-align: center;
+}
+
+/*
+// Animation
+// ------------------------------------------------*/
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.fade-leave-active {
+  position: absolute;
 }

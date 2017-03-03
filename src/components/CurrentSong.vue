@@ -25,6 +25,7 @@ export default {
 
 <style scoped>
   .track {
+    align-items: center;
     display: flex;
     justify-content: space-between;
   }

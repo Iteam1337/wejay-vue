@@ -29,11 +29,11 @@ export default {
 <style scoped>
   .gravatar {
     max-width: 30px;
-    vertical-align: bottom;
   }
 
   .image {
     border-radius: 100%;
+    display: block;
     max-width: 100%;
   }
 </style>

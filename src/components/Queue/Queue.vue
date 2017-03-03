@@ -1,7 +1,15 @@
 <template>
   <div v-if="queueLength">
-    <ul class="queue">
-      <li class="track" :class="{ history: item.ended}" v-for="item in queueItems">
+    <transition-group class="queue" name="fade" tag="ul">
+      <li
+        class="track"
+        :class="{
+          history: item.ended,
+          userAdded: item.user.id === user.id
+        }"
+        :key="item.spotifyId"
+        v-for="item in queueItems"
+        @click="removeSong(item)">
         <gravatar :user="item.user" />
         <div class="content">
           <artist class="artist" :artists="item.artists" />
@@ -14,10 +22,10 @@
           {{ item.ended | timeAgo }}
         </div>
       </li>
-    </ul>
+    </transition-group>
     <div class="meta">
-      <a href="#" @click.prevent="toggleHistory">{{ displayHistory ? 'Hide' : 'Show'}} history</a>
-      - {{ queueLength }} Songs - Playtime {{ queueTime }} 
+      <span v-if="history.length"><a href="#" @click.prevent="toggleHistory">{{ displayHistory ? 'Hide' : 'Show'}} history</a> - </span>
+      {{ queueLength }} Songs - Playtime {{ queueTime }}
     </div>
   </div>
   <div v-else class="empty-queue">

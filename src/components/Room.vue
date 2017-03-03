@@ -4,14 +4,17 @@
     <div class="overlay" />
     <div class="room">
       <cover :album="currentSong.album" />
+      <search />
       <div class="now-playing">
         <current-song :song="currentSong" />
+        <controls :song="currentSong" />
         <queue :history="history" :queue="queue" />
       </div>
     </div>
   </div>
   <div v-else class="empty-room">
     The room is empty. Drag and drop some songs from Spotify here or add a song from the search to get the party started.
+    <input v-model="query" @keyup.enter="addSong" />
   </div>
 </template>
 
@@ -20,6 +23,8 @@ import Queue from './Queue/Queue.vue'
 import Backdrop from './Backdrop'
 import CurrentSong from './CurrentSong'
 import Cover from './Cover'
+import Search from './Search'
+import Controls from './Controls'
 
 export default {
   name: 'hello',
@@ -28,19 +33,22 @@ export default {
       currentSong: {},
       history: [],
       queue: [],
-      users: []
+      users: [],
+      query: ''
     }
   },
   components: {
     Backdrop,
     Cover,
     CurrentSong,
-    Queue
+    Queue,
+    Search,
+    Controls
   },
   mounted () {
     const params = {
       roomName: this.$route.params.roomName,
-      user: 'belli'
+      user: JSON.parse(localStorage.user)
     }
 
     this.$socket.emit('join', params, (room) => {
@@ -59,8 +67,30 @@ export default {
     }
   },
   methods: {
-    skip: function () {
-      this.$socket.emit('skip')
+    addSong: function () {
+      const spotify = 'https://api.spotify.com/v1/search?q='
+      const query = `${encodeURI(this.query)}&type=track&market=SE`
+
+      fetch(`${spotify}${query}`)
+        .then(res => res.json())
+        .then(data => {
+          const track = data.tracks.items[0]
+          const song = {
+            album: track.album,
+            artists: track.artists,
+            duration: track.duration_ms || track.duration,
+            name: track.name,
+            spotifyId: track.id || track.spotifyId,
+            uri: track.uri,
+            started: null,
+            position: null,
+            user: JSON.parse(localStorage.user)
+          }
+
+          this.$socket.emit('addSong', song)
+
+          this.query = ''
+        })
     }
   }
 }
@@ -70,7 +100,7 @@ export default {
   .room {
     display: flex;
     margin: 120px auto 0;
-    width: 90vw;
+    width: 70vw;
     position: relative;
     z-index: 10;
   }

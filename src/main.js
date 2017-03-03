@@ -3,12 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
 import VueSocketio from 'vue-socket.io'
 
 Vue.config.productionTip = false
 
-Vue.use(VueSocketio, 'http://api.wejay.org', store)
+Vue.use(VueSocketio, 'http://localhost:4000')
 
 /* eslint-disable no-new */
 new Vue({
