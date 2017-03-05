@@ -6,13 +6,24 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
+    "start:prod": "better-npm-run start:prod",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "test:dev": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
+  "betterScripts": {
+    "start:prod": {
+      "command": "node build/dev-server",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    }
+  },
   "dependencies": {
+    "better-npm-run": "^0.0.14",
     "md5": "^2.2.1",
     "moment": "^2.17.1",
     "notifyjs": "^3.0.0",

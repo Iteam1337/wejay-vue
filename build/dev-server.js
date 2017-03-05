@@ -23,52 +23,62 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-var compiler = webpack(webpackConfig)
 
-var devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
-  quiet: true
-})
+if (process.env.NODE_ENV === 'development') {
+  var compiler = webpack(webpackConfig)
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: () => {}
-})
-// force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({ action: 'reload' })
-    cb()
+  var devMiddleware = require('webpack-dev-middleware')(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    quiet: true
   })
-})
 
-// proxy api requests
-Object.keys(proxyTable).forEach(function (context) {
-  var options = proxyTable[context]
-  if (typeof options === 'string') {
-    options = { target: options }
-  }
-  app.use(proxyMiddleware(options.filter || context, options))
-})
+  var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+    log: () => {}
+  })
+  // force page reload when html-webpack-plugin template changes
+  compiler.plugin('compilation', function (compilation) {
+    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+      hotMiddleware.publish({ action: 'reload' })
+      cb()
+    })
+  })
 
-// handle fallback for HTML5 history API
-app.use(require('connect-history-api-fallback')())
+  // proxy api requests
+  Object.keys(proxyTable).forEach(function (context) {
+    var options = proxyTable[context]
+    if (typeof options === 'string') {
+      options = { target: options }
+    }
+    app.use(proxyMiddleware(options.filter || context, options))
+  })
 
-// serve webpack bundle output
-app.use(devMiddleware)
+  // handle fallback for HTML5 history API
+  app.use(require('connect-history-api-fallback')())
 
-// enable hot-reload and state-preserving
-// compilation error display
-app.use(hotMiddleware)
+  // serve webpack bundle output
+  app.use(devMiddleware)
 
-// serve pure static assets
-var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./static'))
+  // enable hot-reload and state-preserving
+  // compilation error display
+  app.use(hotMiddleware)
 
-var uri = 'http://localhost:' + port
+  // serve pure static assets
+  var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+  app.use(staticPath, express.static('./static'))
 
-devMiddleware.waitUntilValid(function () {
-  console.log('> Listening at ' + uri + '\n')
-})
+  var uri = 'http://localhost:' + port
+
+  devMiddleware.waitUntilValid(function () {
+    console.log('> Listening at ' + uri + '\n')
+  })
+} else {
+  app.use(express.static(path.join(__dirname, '../', 'dist/static')))
+  app.use(express.static(path.join(__dirname, '../', 'dist')))
+
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.join('./dist', 'index.html'))
+  })
+}
 
 module.exports = app.listen(port, function (err) {
   if (err) {
@@ -76,8 +86,10 @@ module.exports = app.listen(port, function (err) {
     return
   }
 
+  console.log(`Listening on ${port}`)
+
   // when env is testing, don't need open it
-  if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+  if (autoOpenBrowser && process.env.NODE_ENV !== 'testing' && process.env.NODE_ENV !== 'production') {
     opn(uri)
   }
 })
