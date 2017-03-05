@@ -12,12 +12,22 @@ import notifications from '@/utils/notifications'
 
 export default {
   name: 'room',
-  computed: mapState([
-    'currentSong',
-    'history',
-    'users',
-    'queue'
-  ]),
+  data () {
+    return {
+      joined: false
+    }
+  },
+  computed: {
+    joinedAndPlaying () {
+      return this.currentSong && this.joined
+    },
+    ...mapState([
+      'currentSong',
+      'history',
+      'users',
+      'queue'
+    ])
+  },
   components: {
     Backdrop,
     Controls,
@@ -42,6 +52,9 @@ export default {
     })
   },
   sockets:{
+    userJoined: function () {
+      this.joined = true
+    },
     queue: function (queue) {
       this.updateQueue(queue.slice(1))
     },
@@ -52,13 +65,18 @@ export default {
         history => {
           this.updateHistory(history)
         })
-
-      notifications(song)
-
       this.setCurrentSong(song)
+
+      if (song) {
+        notifications(song)
+      }
     }
   },
   methods: {
+    removeRoom () {
+      this.$socket.emit('removeRoom', this.$route.params.roomName)
+      this.$router.push('/')
+    },
     ...mapMutations([
       'updateHistory',
       'setCurrentSong',
