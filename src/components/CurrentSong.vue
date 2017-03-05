@@ -12,14 +12,17 @@
 <script>
 import Artist from './Artist'
 import Gravatar from './Gravatar'
+import { mapState } from 'vuex'
 
 export default {
   name: 'current-song',
-  props: ['song'],
   components: {
     Artist,
     Gravatar
-  }
+  },
+  computed: mapState({
+    song: 'currentSong'
+  })
 }
 </script>
 

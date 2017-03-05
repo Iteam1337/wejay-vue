@@ -25,7 +25,7 @@
     </transition-group>
     <div class="meta">
       <span v-if="history.length"><a href="#" @click.prevent="toggleHistory">{{ displayHistory ? 'Hide' : 'Show'}} history</a> - </span>
-      {{ queueLength }} Songs - Playtime {{ queueTime }}
+      {{ queueLength }} Songs - Playtime {{ queueTime | time }}
     </div>
   </div>
   <div v-else class="empty-queue">

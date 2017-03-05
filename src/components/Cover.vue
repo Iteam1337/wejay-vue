@@ -1,16 +1,22 @@
 <template>
   <transition name="fade">
-    <div class="album-cover" v-if="album">
-      <img class="cover" :src="album.images[0].url" />
+    <div class="album-cover" v-if="cover">
+      <img class="cover" :src="cover" />
     </div>
   </transition>
 </template>
 
 <script>
-export default {
-  name: 'album-cover',
-  props: ['album']
-}
+  import { mapGetters } from 'vuex'
+
+  export default {
+    name: 'cover',
+    computed: {
+      ...mapGetters([
+        'cover'
+      ])
+    }
+  }
 </script>
 
 <style scoped>
@@ -21,6 +27,17 @@ export default {
     min-width: 300px;
   }
 
+  .queue-album {
+    margin-left: 10px;
+    margin-right: 0;
+    max-width: 30px;
+    min-width: 30px;
+
+    .cover {
+      border-radius: 0;
+    }
+  }
+
   .cover {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(33, 33, 33, .4);
@@ -28,7 +45,7 @@ export default {
   }
 
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
+    transition: opacity 300ms
   }
 
   .fade-enter, .fade-leave-active {

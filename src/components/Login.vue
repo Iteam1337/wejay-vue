@@ -1,14 +1,14 @@
 <template>
   <div>
-    <ul>
+    <ul v-if="isLoggedIn">
       <li v-for="room in rooms">
         <router-link
           :to="{name: 'Room', params: { roomName: room.roomName }}">
           {{ room.roomName }}
         </router-link>
-        <button @click="fbLogin">Facebook login</button>
       </li>
     </ul>
+    <button @click="fbLogin" v-if="!isLoggedIn">Facebook login</button>
   </div>
 </template>
 
@@ -17,28 +17,37 @@ export default {
   name: 'login',
   data() {
     return {
-      rooms: []
+      rooms: [],
+      isLoggedIn: localStorage.user
     }
   },
   mounted() {
     this.$socket.emit('rooms', (rooms) => {
       this.rooms = rooms
     })
+
+    setTimeout(() => {
+      FB.getLoginStatus(response => {
+        this.checkLoginState(response)
+      })
+    }, 200)
   },
   methods: {
-    fbLogin: function () {
-      const valueScope = 'public_profile, email'
-      FB.login(response => {
-        const authResponse = response.authResponse
+    checkLoginState (response) {
+      const authResponse = response.authResponse
 
-        FB.api('/me', { fields: 'id,name,email' }, response => {
-          response.status = 'connected'
-          response.accessToken = authResponse.accessToken
-          response.expiresIn = authResponse.expiresIn
-          response.signedRequest = authResponse.signedRequest
-          localStorage.setItem('user', JSON.stringify(response))
-        })
-      }, { scope: valueScope })
+      FB.api('/me', { fields: 'id,name,email' }, response => {
+        response.status = 'connected'
+        response.accessToken = authResponse.accessToken
+        response.expiresIn = authResponse.expiresIn
+        response.signedRequest = authResponse.signedRequest
+        this.isLoggedIn = true
+        localStorage.setItem('user', JSON.stringify(response))
+      })
+    },
+    fbLogin () {
+      const valueScope = 'public_profile, email'
+      FB.login(this.checkLoginState, { scope: valueScope })
     }
   }
 }

@@ -7,14 +7,14 @@
       </svg>
 
     </button>
-    <button @click="pause" v-if="playing">
+    <button @click="pause" v-if="isPlaying">
       <svg version="1.1" class="pause" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         width="512px" height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
         <rect x="128" y="96" width="79" height="320"/>
         <rect x="305" y="96" width="79" height="320"/>
       </svg>
   </button>
-    <button @click="play" v-if="!playing">
+    <button @click="play" v-if="!isPlaying">
       <svg version="1.1" class="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         width="512px" height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
         <path d="M128,96v320l256-160L128,96L128,96z"/>
@@ -24,22 +24,25 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'controls',
-  data() {
-    return {
-      playing: true
-    }
-  },
-  props: ['song'],
+  computed: mapState({
+    song: 'currentSong',
+    isPlaying: 'isPlaying'
+  }),
   methods: {
+    ...mapMutations([
+      'playState'
+    ]),
     pause: function () {
       this.$socket.emit('pause', this.$route.params.roomName)
-      this.playing = false
+      this.playState(false)
     },
     play: function () {
       this.$socket.emit('play', this.$route.params.roomName)
-      this.playing = true
+      this.playState(true)
     },
     skip: function () {
       this.$socket.emit('skip', this.song)
@@ -57,6 +60,7 @@ export default {
     appearance: none;
     background: none;
     border: 0;
+    cursor: pointer;
     padding: 0;
 
     &:focus,

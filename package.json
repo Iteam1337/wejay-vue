@@ -9,12 +9,15 @@
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
+    "test:dev": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
     "md5": "^2.2.1",
     "moment": "^2.17.1",
+    "notifyjs": "^3.0.0",
     "vue": "^2.2.1",
+    "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
     "vue-socket.io": "^2.1.0",
     "vuex": "^2.2.1"

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
-import Room from '@/components/Room'
+import Room from '@/components/Room/Room.vue'
 
 Vue.use(Router)
 

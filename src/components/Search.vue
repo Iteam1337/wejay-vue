@@ -22,6 +22,9 @@
             <artist class="artist" :artists="track.artists" /> - {{ track.name }}
           </li>
         </ul>
+        <div v-if="empty">
+          Nothing found
+        </div>
       </div>
     </transition>
   </div>
@@ -29,6 +32,7 @@
 
 <script>
   import Artist from './Artist'
+  import { wejayTrack } from '@/utils/parsers'
 
   export default {
     name: 'search',
@@ -36,7 +40,8 @@
       return {
         displaySearch: false,
         query: '',
-        results: []
+        results: [],
+        empty: false
       }
     },
     components: {
@@ -44,30 +49,25 @@
     },
     methods: {
       search: function () {
+        this.empty = false
+
         const spotify = 'https://api.spotify.com/v1/search?q='
         const query = `${encodeURI(this.query)}&type=track&market=SE`
 
-        fetch(`${spotify}${query}`)
+        this.$http.get(`${spotify}${query}`)
           .then(res => res.json())
           .then(data => {
+            if (!data.tracks.items.length) {
+              this.empty = true
+              return false
+            }
+
             this.results = data.tracks.items
             this.query = ''
           })
       },
       addSong: function (track) {
-        const song = {
-          album: track.album,
-          artists: track.artists,
-          duration: track.duration_ms || track.duration,
-          name: track.name,
-          spotifyId: track.id || track.spotifyId,
-          uri: track.uri,
-          started: null,
-          position: null,
-          user: JSON.parse(localStorage.user)
-        }
-
-        this.$socket.emit('addSong', song)
+        this.$socket.emit('addSong', wejayTrack(song))
         this.displaySearch = false
         this.results = []
       }

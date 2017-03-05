@@ -1,16 +1,25 @@
 <template>
   <div
     class="backdrop"
-    :style="{ backgroundImage: 'url(' + album.images[0].url + ')' }"
-    v-if="album">
+    :style="{ 'backgroundImage': backdrop }"
+    v-if="cover">
   </div>
 </template>
 
 <script>
-export default {
-  name: 'backdrop',
-  props: ['album']
-}
+  import { mapGetters } from 'vuex'
+
+  export default {
+    name: 'backdrop',
+    computed: {
+      backdrop() {
+        return `url(${this.cover})`
+      },
+      ...mapGetters([
+        'cover'
+      ])
+    }
+  }
 </script>
 
 <style scoped>

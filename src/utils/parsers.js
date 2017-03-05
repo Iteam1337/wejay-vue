@@ -39,3 +39,17 @@ export function time (sum) {
 export function timeAgo (date) {
   return moment(date).fromNow()
 }
+
+export function wejayTrack (track) {
+  return {
+    album: track.album,
+    artists: track.artists,
+    duration: track.duration_ms || track.duration,
+    name: track.name,
+    spotifyId: track.id || track.spotifyId,
+    uri: track.uri,
+    started: null,
+    position: null,
+    user: JSON.parse(localStorage.user)
+  }
+}
