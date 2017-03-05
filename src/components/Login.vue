@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <div class="login-content">
+    <div class="login-content" v-if="isLoggedIn">
       <h2 class="rooms-title">Available rooms</h2>
-      <ul class="rooms" v-if="isLoggedIn">
+      <ul class="rooms">
         <li class="room" v-for="room in rooms">
           <router-link
             class="room-link"
@@ -14,7 +14,10 @@
       <hr />
       <input v-model="newRoom" placeholder="Add a new room" class="add-input" />
       <router-link :to="{ name: 'Room', params: { roomName: newRoom }}" class="add-button">New room</router-link>
-      <button @click="fbLogin" v-if="!isLoggedIn">Facebook login</button>
+    </div>
+    <div class="logged-out" v-else>
+      Login with your Facebook account to join the party!
+      <button class="fb-login" @click="fbLogin">Facebook login</button>
     </div>
   </div>
 </template>
@@ -110,6 +113,24 @@ export default {
     color: rgba(255, 255, 255, 0.05);
     margin-bottom: 30px;
     margin-top: 30px;
+  }
+
+  .logged-out {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fb-login {
+    appearance: none;
+    background-color: #3b5998;
+    border: 0;
+    border-radius: 3px;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    margin-top: 20px;
+    padding: 10px 20px;
   }
 
   /*

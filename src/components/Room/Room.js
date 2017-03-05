@@ -19,7 +19,11 @@ export default {
   },
   computed: {
     joinedAndPlaying () {
-      return this.currentSong && this.joined
+      return this.joined && this.currentSong
+    },
+    joinedAndNotPlaying () {
+      console.log(this.currentSong)
+      return this.joined && !this.currentSong
     },
     ...mapState([
       'currentSong',
