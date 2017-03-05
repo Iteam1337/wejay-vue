@@ -35,6 +35,10 @@
       time
     },
     mounted () {
+      if (!this.song.spotifyId) {
+        return false
+      }
+
       this.timer = setInterval(this.estimateTime, 1000)
     },
     watch: {
@@ -57,6 +61,8 @@
     },
     methods: {
       estimateTime () {
+
+
         if (this.song.spotifyId !== this.id) {
           this.position = 0
           this.id = this.song.spotifyId

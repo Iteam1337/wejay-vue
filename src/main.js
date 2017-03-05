@@ -8,7 +8,7 @@ import VueResource from 'vue-resource'
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
-Vue.use(VueSocketio, 'http://localhost:4000')
+Vue.use(VueSocketio, process.env.API_URL)
 
 /* eslint-disable no-new */
 new Vue({
