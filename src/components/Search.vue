@@ -118,7 +118,7 @@
     position: fixed;
     right: 30px;
     top: 30px;
-    z-index: 1;
+    z-index: 5;
   }
 
   .icon-search,
@@ -204,9 +204,9 @@
     list-style-type: none;
     margin: 0;
     max-height: 600px;
-    max-width: 70vw;
     overflow: auto;
     padding: 0;
+    width: 70vw;
   }
 
   li {
