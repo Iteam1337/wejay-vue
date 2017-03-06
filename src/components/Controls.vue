@@ -36,15 +36,15 @@ export default {
     ...mapMutations([
       'playState'
     ]),
-    pause: function () {
+    pause () {
       this.$socket.emit('pause', this.$route.params.roomName)
       this.playState(false)
     },
-    play: function () {
+    play () {
       this.$socket.emit('play', this.$route.params.roomName)
       this.playState(true)
     },
-    skip: function () {
+    skip () {
       this.$socket.emit('skip', this.song)
     }
   }

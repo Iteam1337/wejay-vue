@@ -5,7 +5,7 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'queue',
-  data() {
+  data () {
     return {
       displayHistory: false,
       user: JSON.parse(localStorage.user)
@@ -28,7 +28,7 @@ export default {
       'queueLength',
       'queueTime'
     ]),
-    queueItems: function () {
+    queueItems () {
       if (this.displayHistory) {
         return this.queue.concat(this.history)
       }
@@ -37,12 +37,12 @@ export default {
     }
   },
   methods: {
-    removeSong: function (song) {
+    removeSong (song) {
       if (song.user.id === this.user.id) {
         this.$socket.emit('removeSong', song)
       }
     },
-    toggleHistory: function () {
+    toggleHistory () {
       this.displayHistory = !this.displayHistory
     }
   }

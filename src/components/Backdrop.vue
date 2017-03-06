@@ -14,7 +14,7 @@
   export default {
     name: 'backdrop',
     computed: {
-      backdrop() {
+      backdrop () {
         return `url(${this.cover})`
       },
       ...mapGetters([

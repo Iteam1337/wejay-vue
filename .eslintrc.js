@@ -16,6 +16,11 @@ module.exports = {
   // add your custom rules here
   'rules': {
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'key-spacing': 0,
+    'no-var': 2,
+    'no-unused-vars': 2,
+    'prefer-const': 2,
+    'object-curly-spacing': [2, 'always']
   }
 }

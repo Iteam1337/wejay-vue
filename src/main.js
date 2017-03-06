@@ -3,11 +3,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VueSocketio from 'vue-socket.io'
-import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
 
-Vue.use(VueResource)
 Vue.use(VueSocketio, process.env.API_URL)
 
 /* eslint-disable no-new */

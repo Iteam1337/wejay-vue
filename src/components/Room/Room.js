@@ -5,9 +5,8 @@ import Droparea from '@/components/Droparea'
 import CurrentSong from '@/components/CurrentSong'
 import Position from '@/components/Position'
 import Cover from '@/components/Cover'
-import Search from '@/components/Search'
+import Search from '@/components/Search/Search.vue'
 import Controls from '@/components/Controls'
-import { wejayTrack } from '@/utils/parsers'
 import notifications from '@/utils/notifications'
 
 export default {
@@ -55,13 +54,13 @@ export default {
     })
   },
   sockets:{
-    userJoined: function () {
+    userJoined () {
       this.joined = true
     },
-    queue: function (queue) {
+    queue (queue) {
       this.updateQueue(queue.slice(1))
     },
-    nextSong: function (song) {
+    nextSong (song) {
       this.$socket.emit(
         'history',
         this.$route.params.roomName,

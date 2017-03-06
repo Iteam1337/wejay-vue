@@ -11,6 +11,7 @@
 
 <script>
   import { wejayTrack } from '@/utils/parsers'
+  import axios from 'axios'
 
   export default {
     name: 'droparea',
@@ -21,21 +22,20 @@
       }
     },
     methods: {
-      drop: function (e) {
+      drop (e) {
         this.isDragging = false
 
         const songs = e.dataTransfer
           .getData('text')
           .replace(/https\:\/\/open.spotify.com\/track\//ig, 'https://api.spotify.com/v1/tracks/')
           .split('\n')
-          .map(song => this.$http.get(song).then(res => res.json()))
-
+          .map(song => axios.get(song))
 
         Promise
           .all(songs)
           .then(tracks => {
             tracks.forEach(track => {
-              this.$socket.emit('addSong', wejayTrack(track))
+              this.$socket.emit('addSong', wejayTrack(track.data))
             })
           })
       },

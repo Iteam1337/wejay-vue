@@ -40,7 +40,7 @@ export default new Vuex.Store({
       state.users = payload
     },
     playState (state, payload) {
-      state.isPlaying = !state.isPlaying
+      state.isPlaying = payload
     }
   }
 })

@@ -4,8 +4,8 @@
       <li
         class="track"
         :class="{
-          history: item.ended,
-          userAdded: item.user.id === user.id
+          'history': item.ended,
+          'userAdded': item.user.id === user.id
         }"
         :key="item.spotifyId"
         v-for="item in queueItems"

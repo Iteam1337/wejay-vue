@@ -11,7 +11,7 @@ export default {
   name: 'gravatar',
   props: ['user', 'size'],
   computed: {
-    gravatarSrc: function () {
+    gravatarSrc () {
       const gravatarBase = 'http://www.gravatar.com/avatar/'
       const hash = md5(this.user.email)
       let gravatar = `${gravatarBase}${hash}`
