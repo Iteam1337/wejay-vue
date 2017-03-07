@@ -25,7 +25,7 @@
             c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"/>
           </svg>
           <div class="search-bar-content">
-            <input class="search-bar" @keyup.enter="search" v-model="query" v-focus placeholder="Find some awesome tunes" />
+            <input class="search-bar" @keyup.enter="search($event.target.value)" v-focus placeholder="Find some awesome tunes" />
             <span class="underline"></span>
           </div>
         </div>
@@ -40,7 +40,7 @@
           Nothing found
         </div>
         <div class="meta" v-if="totalCount > 0">
-          Searched for {{ previousSearch }} - Found {{ totalCount }} tracks - Showing first {{ results.length }}
+          Searched for {{ previousQuery }} - Found {{ totalCount }} tracks - Showing first {{ results.length }}
         </div>
       </div>
     </transition>

@@ -1,53 +1,40 @@
 import Artist from '@/components/Artist'
 import { wejayTrack } from '@/utils/parsers'
-import axios from 'axios'
+import { mapActions, mapState, mapMutations } from 'vuex'
+import { focus } from '@/directives/'
 
 export default {
   name: 'search',
-  data() {
+  data () {
     return {
-      displaySearch: false,
-      previousSearch: '',
-      query: '',
-      results: [],
-      empty: false,
-      totalCount: 0
+      displaySearch: false
     }
   },
   components: {
     Artist
   },
+  computed: {
+    ...mapState({
+      results: ({ search }) => search.results.slice(0, 10),
+      totalCount: ({ search }) => search.totalCount,
+      previousQuery: ({ search }) => search.previousQuery,
+      empty: ({ search }) => search.empty
+    })
+  },
   directives: {
-    focus: {
-      inserted (el) {
-        el.focus()
-      }
-    }
+    focus
   },
   methods: {
-    search () {
-      this.empty = false
-
-      const spotify = 'https://api.spotify.com/v1/search?q='
-      const query = `${encodeURI(this.query)}&type=track&market=SE`
-
-      axios.get(`${spotify}${query}`)
-        .then(({ data }) => {
-          if (!data.tracks.items.length) {
-            this.empty = true
-            return false
-          }
-
-          this.results = data.tracks.items.slice(0, 10)
-          this.previousSearch = this.query
-          this.query = ''
-          this.totalCount = data.tracks.total
-        })
-    },
+    ...mapActions([
+      'search',
+    ]),
+    ...mapMutations([
+      'reset'
+    ]),
     addSong (track) {
       this.$socket.emit('addSong', wejayTrack(track))
       this.displaySearch = false
-      this.results = []
+      this.reset()
     }
   }
 }
