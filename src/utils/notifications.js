@@ -7,7 +7,7 @@ export default function notification (song) {
   const notif = new Notify(artists, {
     body: song.name,
     closeOnClick: true,
-    icon: 'http://www.wejay.org/static/images/wejay-logo-v2.png',
+    icon: '/static/wejay-logo-v2.png',
     notifyClick: () => window.location.href = 'http://www.wejay.org/room/iteam',
     timeout: 3
   })
