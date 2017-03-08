@@ -155,6 +155,7 @@ export default {
 
   .add-button {
     background-color: rgba(66, 185, 131, 1);
+    border: 0;
     border-radius: 20px;
     box-sizing: border-box;
     color: #fff;

@@ -4,6 +4,7 @@ import Backdrop from '@/components/Backdrop'
 import Droparea from '@/components/Droparea'
 import CurrentSong from '@/components/CurrentSong'
 import Position from '@/components/Position'
+import Settings from '@/components/Settings'
 import Cover from '@/components/Cover'
 import Search from '@/components/Search/Search.vue'
 import Controls from '@/components/Controls'
@@ -23,12 +24,14 @@ export default {
     joinedAndNotPlaying () {
       return this.joined && !this.currentSong
     },
-    ...mapState([
-      'currentSong',
-      'history',
-      'users',
-      'queue'
-    ])
+    ...mapState({
+      currentSong: 'currentSong',
+      previousSong: 'previousSong',
+      history: 'history',
+      users: 'users',
+      queue: 'queue',
+      lastfm: ({ lastfm }) => lastfm.lastfmInstance
+    })
   },
   components: {
     Backdrop,
@@ -38,7 +41,8 @@ export default {
     Droparea,
     Position,
     Queue,
-    Search
+    Search,
+    Settings
   },
   mounted () {
     const params = {
@@ -61,13 +65,25 @@ export default {
       this.updateQueue(queue.slice(1))
     },
     nextSong (song) {
-      this.$socket.emit(
-        'history',
-        this.$route.params.roomName,
-        history => {
-          this.updateHistory(history)
-        })
+      this.$socket.emit('history', this.$route.params.roomName, history => {
+        this.updateHistory(history)
+      })
+
       this.setCurrentSong(song)
+
+      if (localStorage.lastfm && this.previousSong) {
+        this.lastfm.scrobbleTrack({
+          artist: this.previousSong.artists[0].name,
+          track: this.previousSong.name
+        })
+      }
+
+      if (localStorage.lastfm && song) {
+        this.lastfm.scrobbleNowPlayingTrack({
+          artist: song.artists[0].name,
+          track: song.name
+        })
+      }
 
       if (song) {
         notifications(song)
