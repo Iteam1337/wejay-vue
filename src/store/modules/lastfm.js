@@ -6,10 +6,10 @@ import md5 from 'md5'
  */
 const state = {
   lastfmInstance: localStorage.lastfm ? new Lastfm({
-    api_key: '319a72fffa73a294ac4154c71f9f0050',
-    api_secret: 'becb3059b9f909011ccb89df8355a19a',
+    api_key: process.env.LASTFM_KEY,
+    api_secret: process.env.LASTFM_SECRET,
     username: localStorage.lastfmUser,
-    password: localStorage.lastfmPassword,
+    authToken: localStorage.lastfmPassword,
     session_key: localStorage.lastfm
   }) : {},
   artistPlays: 0,
@@ -22,8 +22,8 @@ const state = {
 const actions = {
   getSessionToken ({ commit }, { username, password }) {
     const lastfm = new Lastfm({
-      api_key: '319a72fffa73a294ac4154c71f9f0050',
-      api_secret: 'becb3059b9f909011ccb89df8355a19a',
+      api_key: process.env.LASTFM_KEY,
+      api_secret: process.env.LASTFM_SECRET,
       username,
       password
     })
