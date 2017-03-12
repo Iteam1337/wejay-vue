@@ -4,12 +4,10 @@ import Backdrop from '@/components/Backdrop'
 import Droparea from '@/components/Droparea'
 import CurrentSong from '@/components/CurrentSong'
 import Position from '@/components/Position'
-import Settings from '@/components/Settings'
 import Cover from '@/components/Cover'
 import Search from '@/components/Search/Search.vue'
 import Controls from '@/components/Controls'
 import notifications from '@/utils/notifications'
-import axios from 'axios'
 
 export default {
   name: 'room',
@@ -41,8 +39,7 @@ export default {
     Droparea,
     Position,
     Queue,
-    Search,
-    Settings
+    Search
   },
   mounted () {
     const params = {
