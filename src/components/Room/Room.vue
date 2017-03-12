@@ -5,7 +5,6 @@
       <div class="overlay" />
       <droparea />
       <div class="room">
-        <settings />
         <cover />
         <search />
         <div class="now-playing">
@@ -17,7 +16,6 @@
       </div>
     </div>
     <div v-if="joinedAndNotPlaying" class="empty-room">
-      <settings />
       <div class="empty-room-message">
         The room is empty. Drag and drop some songs from Spotify here or add a song from the search to get the party started.
       </div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <svg version="1.1" class="icon-cog" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve" @click="toggleDisplay">
+        width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve" @click="display = !display">
       <g>
         <path d="M293.25,150.32L265.2,254.9l74.954,75C358.159,309.457,368,283.486,368,256c0-29.916-11.65-58.042-32.805-79.196
           C323.154,164.763,308.854,155.807,293.25,150.32z"/>
@@ -22,36 +22,18 @@
     </svg>
     <div class="overlay" v-if="display" />
     <div class="settings" v-if="display">
-      <lastfm v-if="!lastFmAccount" />
-      <div v-else>Last.fm connected to <strong>{{ lastFmUser }}</strong></div>
+      <h2>Spotify</h2>
+      <a href="https://accounts.spotify.com/authorize?client_id=8f6a97af1d5d481a80db1c06fd648b56&response_type=token&redirect_uri=http://dev.wejay.org:5000/&scope=user-library-read&state=123">Connect to Spotify</a>
     </div>
   </div>
 </template>
 
 <script>
-  import Lastfm from '@/components/Lastfm'
-
   export default {
     name: 'settings',
     data () {
       return {
         display: false
-      }
-    },
-    components: {
-      Lastfm
-    },
-    computed: {
-      lastFmAccount () {
-        return localStorage.lastfm
-      },
-      lastFmUser () {
-        return localStorage.lastfmUser
-      }
-    },
-    methods: {
-      toggleDisplay () {
-        this.display = !this.display
       }
     }
   }

@@ -9,6 +9,7 @@ import Cover from '@/components/Cover'
 import Search from '@/components/Search/Search.vue'
 import Controls from '@/components/Controls'
 import notifications from '@/utils/notifications'
+import axios from 'axios'
 
 export default {
   name: 'room',
@@ -29,8 +30,7 @@ export default {
       previousSong: 'previousSong',
       history: 'history',
       users: 'users',
-      queue: 'queue',
-      lastfm: ({ lastfm }) => lastfm.lastfmInstance
+      queue: 'queue'
     })
   },
   components: {
@@ -70,20 +70,6 @@ export default {
       })
 
       this.setCurrentSong(song)
-
-      if (localStorage.lastfm && this.previousSong) {
-        this.lastfm.scrobbleTrack({
-          artist: this.previousSong.artists[0].name,
-          track: this.previousSong.name
-        })
-      }
-
-      if (localStorage.lastfm && song) {
-        this.lastfm.scrobbleNowPlayingTrack({
-          artist: song.artists[0].name,
-          track: song.name
-        })
-      }
 
       if (song) {
         notifications(song)

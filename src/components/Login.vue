@@ -33,6 +33,17 @@ export default {
     }
   },
   mounted() {
+    const getHashValue = (key) => {
+      const matches = this.$route.hash.match(new RegExp(key+'=([^&]*)'));
+      return matches ? matches[1] : null;
+    }
+
+    const spotifyToken = getHashValue('access_token')
+
+    if (spotifyToken) {
+      localStorage.spotifyToken = spotifyToken
+    }
+
     this.$socket.emit('rooms', (rooms) => {
       this.rooms = rooms
     })
