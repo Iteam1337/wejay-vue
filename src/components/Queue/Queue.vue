@@ -16,7 +16,7 @@
           <div class="song">{{ item.name }}</div>
         </div>
         <div class="duration" v-if="!item.ended">
-          {{ item.duration | time }}
+          {{ item.duration | duration }}
         </div>
         <div class="duration" v-else>
           {{ item.ended | timeAgo }}
@@ -25,7 +25,7 @@
     </transition-group>
     <div class="meta">
       <span v-if="history.length"><a href="#" @click.prevent="toggleHistory">{{ displayHistory ? 'Hide' : 'Show'}} history</a> - </span>
-      {{ queueLength }} Songs - Playtime {{ queueTime | time }}
+      {{ queueLength }} Songs - Playtime {{ queueTime | duration }}
     </div>
   </div>
   <div v-else class="empty-queue">

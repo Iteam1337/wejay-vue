@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import { wejayTrack } from '@/utils/parsers'
+  import { wejayTrack } from '@/utils/helpers'
   import axios from 'axios'
 
   export default {

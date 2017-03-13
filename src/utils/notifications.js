@@ -1,5 +1,5 @@
 import Notify from 'notifyjs'
-import { concatenate } from './filters'
+import { concatenate } from './helpers'
 
 export default function notification (song) {
   const artists = concatenate(song.artists)

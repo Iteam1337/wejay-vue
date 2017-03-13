@@ -1,5 +1,5 @@
 import Artist from '@/components/Artist'
-import { wejayTrack } from '@/utils/parsers'
+import { wejayTrack } from '@/utils/helpers'
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { focus } from '@/directives/'
 

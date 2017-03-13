@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { concatenate } from '@/utils/filters'
+import { concatenate } from '@/utils/helpers'
 
 export default {
   name: 'artist',

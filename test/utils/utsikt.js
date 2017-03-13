@@ -11,7 +11,7 @@ const attr = (element) => (name) =>
  * Get classes on an element
  * @param {element} element
  */
-const classes = (element) => (name) =>
+const classes = (element) => () =>
   Object
     .values(element.classList)
     .filter(name => typeof name === 'string')
@@ -27,7 +27,7 @@ const className = (element) => (name) =>
  * Get parent to element
  * @param {element} element
  */
-const parent = (element) => (name) =>
+const parent = (element) => () =>
   find(element.parentNode)()
 
 /**

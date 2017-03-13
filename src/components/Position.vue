@@ -7,8 +7,8 @@
       class="bar"
       :class="{ 'hover': isHovering }">
       <transition-group name="fade">
-        <div class="current" key="current" v-if="isHovering">{{ position | time }}</div>
-        <div class="duration" key="duration" v-if="isHovering">{{ song.duration | time }}</div>
+        <div class="current" key="current" v-if="isHovering">{{ position | duration }}</div>
+        <div class="duration" key="duration" v-if="isHovering">{{ song.duration | duration }}</div>
       </transition-group>
       <div
         class="bar-position"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import { time } from '@/utils/parsers'
+  import { duration } from '@/utils/helpers'
   import { mapState } from 'vuex'
 
   export default {
@@ -32,7 +32,7 @@
       }
     },
     filters: {
-      time
+      duration
     },
     mounted () {
       this.timer = setInterval(this.estimateTime, 1000)

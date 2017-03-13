@@ -1,6 +1,6 @@
 import Artist from '../Artist'
 import Gravatar from '../Gravatar'
-import { time, timeAgo } from '@/utils/parsers'
+import { duration, timeAgo } from '@/utils/helpers'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -16,7 +16,7 @@ export default {
     Gravatar
   },
   filters: {
-    time,
+    duration,
     timeAgo
   },
   computed: {
